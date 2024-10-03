@@ -1,5 +1,7 @@
 # Proyecto Flask con SQLite
 
+CARLOS CARRIÓN RÓDRIGUEZ
+
 Este es un proyecto básico en Python que utiliza el framework Flask para crear una aplicación web con una base de datos SQLite. El proyecto incluye una API simple para agregar y visualizar entradas en la base de datos.
 
 ## Requisitos
