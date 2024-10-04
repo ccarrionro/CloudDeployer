@@ -1,0 +1,31 @@
+# .gitlab-ci.yml
+
+stages:
+  - build
+  - test
+  - deploy
+
+variables:
+  # Define el tag de la imagen Docker basado en el commit SHA
+  IMAGE_TAG: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
+  # Define el tag 'latest' para la imagen Docker
+  IMAGE_LATEST: $CI_REGISTRY_IMAGE:latest
+
+services:
+  - docker:dind  # Docker-in-Docker para permitir la construcción de imágenes Docker
+
+before_script:
+  # Iniciar sesión en el registro Docker usando las variables de entorno
+  - echo $CI_JOB_TOKEN | docker login -u gitlab-ci-token --password-stdin $CI_REGISTRY
+
+build:
+  stage: build
+  image: docker:latest
+  script:
+    # Construir la imagen Docker
+    - docker build -t $IMAGE_TAG .
+    # Etiquetar la imagen como 'latest'
+    - docker tag $IMAGE_TAG $IMAGE_LATEST
+    # Pushear ambas etiquetas al registro
+    - docker push $IMAGE_TAG
+    - docker push $IMAGE_LATE
